@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chatbot Local</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <!-- Coquille à deux colonnes : barre latérale (liste) + zone de chat (détail). -->
+  <div class="layout">
+
+    <!-- ===== Barre latérale : la LISTE des conversations ===== -->
+    <aside class="sidebar">
+      <div class="sidebar__header">
+        <span class="sidebar__logo" aria-hidden="true">◆</span>
+        <span class="sidebar__brand">Chatbot Local</span>
+      </div>
+
+      <button id="new-conv" class="sidebar__new" type="button">
+        <svg class="sidebar__new-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+          <path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        Nouvelle conversation
+      </button>
+
+      <div class="sidebar__label">Conversations</div>
+
+      <!-- Rempli dynamiquement par app.js (une entrée par conversation). -->
+      <ul id="conv-list" class="conv-list"></ul>
+    </aside>
+
+    <!-- ===== Zone principale : le DÉTAIL de la conversation active ===== -->
+    <main class="chat">
+      <header class="topbar">
+        <h1 class="topbar__title">Conversation</h1>
+        <span class="topbar__model">
+          <span class="topbar__status" aria-hidden="true"></span>
+          llama3.1:8b
+        </span>
+      </header>
+
+      <div class="messages" id="messages">
+        <div class="messages__inner" id="messages-inner"></div>
+      </div>
+
+      <footer class="composer">
+        <div class="composer__box">
+          <textarea
+            id="input"
+            class="composer__input"
+            rows="1"
+            placeholder="Écrivez un message…"
+          ></textarea>
+          <button id="send" class="composer__send" type="button" aria-label="Envoyer"></button>
+        </div>
+        <p class="composer__hint">
+          <kbd>Entrée</kbd> pour envoyer · <kbd>Maj + Entrée</kbd> pour une nouvelle ligne
+        </p>
+      </footer>
+    </main>
+  </div>
+
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

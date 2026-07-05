@@ -1,0 +1,46 @@
+# ----- Python -----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.Python
+
+# ----- Environnements virtuels -----
+.venv/
+venv/
+env/
+
+# ----- Bases de données locales (données du chatbot, pas du code) -----
+*.db
+*.sqlite
+*.sqlite3
+
+# ----- Secrets / configuration locale -----
+# (aucune clé API dans le dépôt aujourd'hui ; cette règle évite d'en committer
+#  une par accident si tu passes DATABASE_URL & co. dans un fichier .env)
+.env
+.env.*
+!.env.example
+
+# ----- Node / frontend (étape 16 : React + Vite) -----
+node_modules/
+dist/
+
+# ----- Caches d'outils -----
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ----- Éditeurs / IDE -----
+.vscode/
+.idea/
+*.swp
+
+# ----- Réglages locaux Claude Code (on garde les réglages partagés) -----
+.claude/settings.local.json
+
+# ----- Système -----
+.DS_Store
+Thumbs.db
+
+# ----- Journaux -----
+*.log

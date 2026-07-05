@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chatbot Local</title>
+
+  <!-- Feuille de style externe. Le chemin est relatif à la racine servie
+       par FastAPI (montée sur /static), d'où le « /static/... ». -->
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <span class="status-dot" aria-hidden="true"></span>
+      <h1 class="title">Chatbot Local</h1>
+      <span class="host">llama3.1:8b</span>
+    </header>
+
+    <!-- Le fil de conversation est rempli dynamiquement par app.js. -->
+    <div class="messages" id="messages"></div>
+
+    <div class="composer">
+      <textarea
+        id="input"
+        class="composer__input"
+        rows="1"
+        placeholder="Écrivez un message…"
+      ></textarea>
+      <button id="send" class="composer__send" type="button">Envoyer</button>
+    </div>
+  </div>
+
+  <!-- Script externe, chargé en fin de body pour que le DOM existe déjà.
+       « defer » garantit aussi qu'il s'exécute après l'analyse du HTML. -->
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

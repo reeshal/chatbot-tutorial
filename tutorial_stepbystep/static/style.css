@@ -1,0 +1,163 @@
+/* =========================================================================
+   Chatbot Local — feuille de style
+   Convention de nommage : BEM (block__element--modifier).
+   ========================================================================= */
+
+/* ----- Jetons de design (couleurs, rayons, polices) ----- */
+:root {
+  --bg:        #15151f;
+  --surface:   #1e1f2e;
+  --bot:       #262842;
+  --user:      #ffcc33;  /* or « pièce » : accent de la marque */
+  --user-ink:  #1a1500;
+  --text:      #e9e9f1;
+  --muted:     #8a8aa3;
+  --accent:    #ffcc33;
+  --pipe:      #58c36a;  /* vert « tuyau », pour le statut */
+  --border:    #2b2c3d;
+  --radius:    14px;
+  --mono:      ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --sans:      system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  display: flex;
+  justify-content: center;
+}
+
+/* ----- Conteneur principal ----- */
+.app {
+  width: 100%;
+  max-width: 720px;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ----- En-tête (ton « outil local », en monospace) ----- */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+}
+.status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--pipe);
+  box-shadow: 0 0 8px var(--pipe);
+}
+.title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.host {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ----- Fil de la conversation ----- */
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ----- Bulle de message (block) ----- */
+.bubble {
+  max-width: 78%;
+  padding: 11px 15px;
+  border-radius: var(--radius);
+  line-height: 1.5;
+  white-space: pre-wrap;   /* préserve les retours à la ligne du modèle */
+  word-wrap: break-word;
+  animation: rise 160ms ease-out;
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Modificateurs : qui parle */
+.bubble--user {
+  align-self: flex-end;
+  background: var(--user);
+  color: var(--user-ink);
+  border-bottom-right-radius: 4px;
+  font-weight: 500;
+}
+.bubble--bot {
+  align-self: flex-start;
+  background: var(--bot);
+  border-bottom-left-radius: 4px;
+}
+
+/* SIGNATURE : curseur clignotant pendant le streaming */
+.bubble--streaming::after {
+  content: "▋";
+  color: var(--accent);
+  margin-left: 1px;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ----- Barre de saisie (block + elements) ----- */
+.composer {
+  display: flex;
+  gap: 10px;
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+}
+.composer__input {
+  flex: 1;
+  resize: none;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid #34354a;
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.4;
+}
+.composer__input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.composer__send {
+  background: var(--accent);
+  color: var(--user-ink);
+  border: none;
+  border-radius: 10px;
+  padding: 0 20px;
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+.composer__send:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ----- Accessibilité : respect des préférences de mouvement ----- */
+@media (prefers-reduced-motion: reduce) {
+  .bubble { animation: none; }
+  .bubble--streaming::after { animation: none; }
+}

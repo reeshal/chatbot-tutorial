@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chatbot Local</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <!-- Coquille à deux colonnes : barre latérale (liste) + zone de chat (détail). -->
+  <div class="layout">
+
+    <!-- ===== Barre latérale : la LISTE des conversations ===== -->
+    <aside class="sidebar">
+      <button id="new-conv" class="sidebar__new" type="button">
+        + Nouvelle conversation
+      </button>
+      <!-- Rempli dynamiquement par app.js (une entrée par conversation). -->
+      <ul id="conv-list" class="conv-list"></ul>
+    </aside>
+
+    <!-- ===== Zone principale : le DÉTAIL de la conversation active ===== -->
+    <div class="app">
+      <header class="topbar">
+        <span class="status-dot" aria-hidden="true"></span>
+        <h1 class="title">Chatbot Local</h1>
+        <span class="host">llama3.1:8b</span>
+      </header>
+
+      <div class="messages" id="messages"></div>
+
+      <div class="composer">
+        <textarea
+          id="input"
+          class="composer__input"
+          rows="1"
+          placeholder="Écrivez un message…"
+        ></textarea>
+        <button id="send" class="composer__send" type="button">Envoyer</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

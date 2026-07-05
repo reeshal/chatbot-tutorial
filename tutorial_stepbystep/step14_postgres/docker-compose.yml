@@ -1,0 +1,49 @@
+# Stockage du chatbot : PostgreSQL + pgAdmin.
+#
+#   docker compose up -d        # démarre les deux services
+#   docker compose down         # arrête (les données SURVIVENT, cf. volumes)
+#   docker compose down -v      # arrête ET efface les données
+#
+# L'application (uvicorn) tourne sur l'hôte et se connecte à localhost:5432.
+# pgAdmin (http://localhost:5050) tourne dans le réseau compose : pour y ajouter
+# le serveur, utiliser l'hôte « db » (le nom du service), port 5432.
+
+services:
+  db:
+    image: postgres:16
+    container_name: chatbot_db
+    environment:
+      POSTGRES_USER: chatbot
+      POSTGRES_PASSWORD: chatbot
+      POSTGRES_DB: chatbot
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data   # persiste les données entre redémarrages
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U chatbot"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: chatbot_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.dev
+      PGADMIN_DEFAULT_PASSWORD: admin
+      # Pré-enregistre le serveur « chatbot » au démarrage (cf. servers.json) :
+      # plus besoin de l'ajouter à la main dans l'interface.
+      PGADMIN_SERVER_JSON_FILE: /pgadmin4/servers.json
+    ports:
+      - "5050:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+      - ./servers.json:/pgadmin4/servers.json:ro
+
+volumes:
+  pgdata:
+  pgadmin:
